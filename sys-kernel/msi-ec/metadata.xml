@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>arnaud@abrunet.me</email>
+		<name>Arnaud Brunet</name>
+	</maintainer>
+	<use>
+		<flag name="debugfs">Expose the EC registers interface in /sys/devices/platform/msi-ec/debug/ to allow manual fan control and register dumping.</flag>
+		<flag name="udev">Install udev rules to allow members of the 'wheel' group to write to EC registers without root privileges.</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">abrunetme/msi-ec</remote-id>
+	</upstream>
+</pkgmetadata>

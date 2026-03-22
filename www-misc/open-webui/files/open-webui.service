@@ -1,0 +1,14 @@
+[Unit]
+Description=Open WebUI
+After=network-online.target
+
+[Service] 
+ExecStart=/usr/sbin/open-webui-server
+User=genai
+Group=genai
+Restart=always 
+RestartSec=3
+Environment="HOME=/opt/genai"
+
+[Install]
+WantedBy=default.target
