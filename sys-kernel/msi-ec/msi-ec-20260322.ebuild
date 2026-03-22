@@ -6,7 +6,7 @@ inherit linux-mod-r1 udev
 
 DESCRIPTION="Kernel module for MSI Embedded Controller driver"
 HOMEPAGE="https://github.com/abrunetme/msi-ec"
-SHA="17bd0d9604503eac22cd76bce42165a37886ea7f"
+SHA="8cdd0988b2d3a8761b16a2c04d5a04f192e417ca"
 SRC_URI="https://github.com/abrunetme/msi-ec/archive/${SHA}.tar.gz -> ${P}-${SHA:0:7}.tar.gz"
 S="${WORKDIR}/${PN}-${SHA}"
 LICENSE="GPL-2"
