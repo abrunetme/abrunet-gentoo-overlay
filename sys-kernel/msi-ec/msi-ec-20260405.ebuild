@@ -30,10 +30,10 @@ src_compile() {
 }
 
 src_install() {
-	# 1. Install the kernel module (.ko)
+	# Install the kernel module (.ko)
 	linux-mod-r1_src_install
 
-	# 2. Configure Debug interface and module options
+	# Configure Debug interface and module options
 	if use debugfs; then
 		insinto /etc/modprobe.d
 		newins - msi-ec-debug.conf <<-EOF
@@ -42,20 +42,12 @@ src_install() {
 		EOF
 	fi
 
-	# 3. Blacklist msi-wmi to prevent control conflicts
-	insinto /etc/modprobe.d
-	newins - msi-ec-blacklist.conf <<-EOF
-		# Conflict with msi-ec regarding fan and LED control
-		blacklist msi-wmi
-	EOF
-
-	# 4. UDEV rule for non-root access
+	# UDEV rule for non-root access
 	if use udev; then
 		# Install udev rule to allow 'wheel' group to write to EC registers
-		# This allows running fan scripts without sudo
 		insinto "$(get_udevdir)"/rules.d
 		newins - 99-msi-ec.rules << 'EOF'
-# Allow wheel group to modify EC registers (Fixing Directory Traversing)
+# Allow wheel group to modify EC registers 
 ACTION=="add|change", SUBSYSTEM=="platform", DRIVER=="msi-ec", \
   RUN+="/bin/chgrp -R wheel /sys/devices/platform/msi-ec/", \
   RUN+="/usr/bin/find /sys/devices/platform/msi-ec/ -type d -exec /bin/chmod 775 {} +", \
@@ -63,7 +55,7 @@ ACTION=="add|change", SUBSYSTEM=="platform", DRIVER=="msi-ec", \
 EOF
 	fi
 
-	# 5. Load module automatically at boot
+	# Load module automatically at boot
 	insinto /etc/modules-load.d
 	newins - msi-ec.conf <<-EOF
 		msi-ec
@@ -79,11 +71,10 @@ pkg_postinst() {
         udevadm trigger --subsystem-match=platform --attr-match=driver=msi-ec
         eend $?
 	fi
-	
+
 	linux-mod-r1_pkg_postinst
-	
-	einfo "The msi-wmi module has been blacklisted to prevent conflicts."
-	einfo "If 'debug' USE flag is active, registers are accessible at:"
+
+	einfo "If 'debugfs' USE flag is active, registers are accessible at:"
 	einfo "/sys/devices/platform/msi-ec/debug/"
 }
 
